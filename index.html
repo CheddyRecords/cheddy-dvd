@@ -40,33 +40,31 @@
   let x = 60;
   let y = 140;
 
-  // Base speed
-  let dx = 5.8;
-  let dy = 6.3;
+  // 🐢 Slower base speed
+  let dx = 3.2;
+  let dy = 3.6;
 
   const LOGO_SIZE = 120;
 
-  // Random helper
   function rand(min, max) {
     return Math.random() * (max - min) + min;
   }
 
   function bounceX() {
-    dx = -dx * rand(0.9, 1.15);
-    dy += rand(-0.6, 0.6);
+    dx = -dx * rand(0.95, 1.05);
+    dy += rand(-0.3, 0.3);
   }
 
   function bounceY() {
-    dy = -dy * rand(0.9, 1.15);
-    dx += rand(-0.6, 0.6);
+    dy = -dy * rand(0.95, 1.05);
+    dx += rand(-0.3, 0.3);
   }
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // shadow for contrast
     ctx.save();
-    ctx.shadowColor = "rgba(0,0,0,0.28)";
+    ctx.shadowColor = "rgba(0,0,0,0.25)";
     ctx.shadowBlur = 14;
     ctx.shadowOffsetY = 5;
 
