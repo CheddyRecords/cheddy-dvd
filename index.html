@@ -14,7 +14,6 @@
       background: #E6E0F8; /* light lavender */
       overflow: hidden;
     }
-
     canvas {
       display: block;
     }
@@ -38,22 +37,36 @@
   const logo = new Image();
   logo.src = "cheddy.png";
 
-  let x = 40;
-  let y = 100;
+  let x = 60;
+  let y = 140;
 
-  // Fast = more bounces
-  let dx = 6.5;
-  let dy = 6.5;
+  // Base speed
+  let dx = 5.8;
+  let dy = 6.3;
 
-  // 🔹 SMALL, FIXED SIZE (best for IG)
-  const LOGO_SIZE = 120; // adjust to 100–140 if you want
+  const LOGO_SIZE = 120;
+
+  // Random helper
+  function rand(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function bounceX() {
+    dx = -dx * rand(0.9, 1.15);
+    dy += rand(-0.6, 0.6);
+  }
+
+  function bounceY() {
+    dy = -dy * rand(0.9, 1.15);
+    dx += rand(-0.6, 0.6);
+  }
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // subtle shadow for visibility
+    // shadow for contrast
     ctx.save();
-    ctx.shadowColor = "rgba(0,0,0,0.3)";
+    ctx.shadowColor = "rgba(0,0,0,0.28)";
     ctx.shadowBlur = 14;
     ctx.shadowOffsetY = 5;
 
@@ -63,8 +76,8 @@
     x += dx;
     y += dy;
 
-    if (x <= 0 || x + LOGO_SIZE >= canvas.width) dx *= -1;
-    if (y <= 0 || y + LOGO_SIZE >= canvas.height) dy *= -1;
+    if (x <= 0 || x + LOGO_SIZE >= canvas.width) bounceX();
+    if (y <= 0 || y + LOGO_SIZE >= canvas.height) bounceY();
 
     requestAnimationFrame(animate);
   }
