@@ -38,17 +38,17 @@
   const logo = new Image();
   logo.src = "cheddy.png";
 
-  let x = 40;
-  let y = 120;
+  let x = 50;
+  let y = 150;
 
-  // Speed
-  let dx = 4.8;
-  let dy = 4.8;
+  // 🚀 Faster = more bounces
+  let dx = 6.2;
+  let dy = 6.2;
 
-  // SAFE logo size (never disappears)
+  // 🧀 Smaller but SAFE logo size
   function logoSize() {
-    const responsive = Math.min(canvas.width * 0.5, canvas.height * 0.3);
-    return Math.max(responsive, 140); // minimum size
+    const responsive = Math.min(canvas.width * 0.42, canvas.height * 0.26);
+    return Math.max(responsive, 120); // never smaller than this
   }
 
   function animate() {
@@ -56,12 +56,11 @@
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Shadow for contrast
+    // Shadow so logo pops on lavender
     ctx.save();
-    ctx.shadowColor = "rgba(0,0,0,0.25)";
-    ctx.shadowBlur = 20;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 8;
+    ctx.shadowColor = "rgba(0,0,0,0.28)";
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetY = 6;
 
     ctx.drawImage(logo, x, y, size, size);
     ctx.restore();
@@ -80,3 +79,4 @@
 
 </body>
 </html>
+
