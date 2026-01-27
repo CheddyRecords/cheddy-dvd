@@ -15,7 +15,6 @@
       overflow: hidden;
       touch-action: none;
     }
-
     canvas {
       display: block;
     }
@@ -23,53 +22,44 @@
 </head>
 <body>
 
-  <canvas id="canvas"></canvas>
+<canvas id="canvas"></canvas>
 
-  <script>
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
 
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
 
-    window.addEventListener("resize", resize);
-    resize();
+  const logo = new Image();
+  logo.src = "cheddy.png";
 
-    const logo = new Image();
-    logo.src = "cheddy.png";
+  // Starting position
+  let x = 30;
+  let y = 100;
 
-    // Starting position (top-ish for vertical feel)
-    let x = 20;
-    let y = 80;
+  // Speed (Instagram-friendly)
+  let dx = 4.8;
+  let dy = 4.8;
 
-    // Faster speed
-    let dx = 4.5;
-    let dy = 4.5;
+  // SMALLER logo size
+  function logoSize() {
+    return Math.min(canvas.width * 0.55, canvas.height * 0.32);
+  }
 
-    // Scale logo for phones
-    function getLogoSize() {
-      return Math.min(canvas.width * 0.75, canvas.height * 0.45);
-    }
+  function animate() {
+    const size = logoSize();
 
-    function animate() {
-      const size = getLogoSize();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(logo, x, y, size, size);
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(logo, x, y, size, size);
+    x += dx;
+    y += dy;
 
-      x += dx;
-      y += dy;
+    if (x <= 0 || x + size >= canvas.width) dx *= -1;
+    if (y <= 0 || y + size >= canvas.height)
 
-      if (x <= 0 || x + size >= canvas.width) dx *= -1;
-      if (y <= 0 || y + size >= canvas.height) dy *= -1;
-
-      requestAnimationFrame(animate);
-    }
-
-    logo.onload = animate;
-  </script>
-
-</body>
-</html>
