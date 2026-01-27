@@ -12,7 +12,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: black;
+      background: #E6E0F8; /* fallback lavender */
     }
     canvas {
       display: block;
@@ -34,24 +34,28 @@
   window.addEventListener("resize", resize);
   resize();
 
-  // Background image
   const bg = new Image();
-  bg.src = "background.png";
-
-  // Logo image
   const logo = new Image();
+
+  bg.src = "background.png";
   logo.src = "cheddy.png";
+
+  let imagesLoaded = 0;
+  function checkReady() {
+    imagesLoaded++;
+    if (imagesLoaded === 2) animate();
+  }
+
+  bg.onload = checkReady;
+  logo.onload = checkReady;
 
   let x = 60;
   let y = 140;
 
-  // Slow + smooth
   let dx = 3.2;
   let dy = 3.6;
 
   const LOGO_SIZE = 120;
-
-  // Trail storage
   const trail = [];
   const MAX_TRAIL = 16;
 
@@ -60,4 +64,58 @@
   }
 
   function bounceX() {
-    dx = -dx
+    dx = -dx * rand(0.95, 1.05);
+    dy += rand(-0.3, 0.3);
+  }
+
+  function bounceY() {
+    dy = -dy * rand(0.95, 1.05);
+    dx += rand(-0.3, 0.3);
+  }
+
+  function drawBackground() {
+    const scale = Math.max(
+      canvas.width / bg.width,
+      canvas.height / bg.height
+    );
+    const w = bg.width * scale;
+    const h = bg.height * scale;
+    const bx = (canvas.width - w) / 2;
+    const by = (canvas.height - h) / 2;
+    ctx.drawImage(bg, bx, by, w, h);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawBackground();
+
+    trail.push({ x, y });
+    if (trail.length > MAX_TRAIL) trail.shift();
+
+    trail.forEach((t, i) => {
+      ctx.save();
+      ctx.globalAlpha = i / trail.length * 0.25;
+      ctx.drawImage(logo, t.x, t.y, LOGO_SIZE, LOGO_SIZE);
+      ctx.restore();
+    });
+
+    ctx.save();
+    ctx.shadowColor = "rgba(0,0,0,0.25)";
+    ctx.shadowBlur = 14;
+    ctx.shadowOffsetY = 5;
+    ctx.drawImage(logo, x, y, LOGO_SIZE, LOGO_SIZE);
+    ctx.restore();
+
+    x += dx;
+    y += dy;
+
+    if (x <= 0 || x + LOGO_SIZE >= canvas.width) bounceX();
+    if (y <= 0 || y + LOGO_SIZE >= canvas.height) bounceY();
+
+    requestAnimationFrame(animate);
+  }
+</script>
+
+</body>
+</html>
