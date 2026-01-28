@@ -59,12 +59,12 @@
   const logo = new Image();
   logo.src = "cheddy.png";
 
-  let x = 60;
-  let y = 120;
+  let x = 80;
+  let y = 140;
 
-  // Smooth, slow motion
-  let dx = 2.8;
-  let dy = 3.1;
+  // 🐢 Slower, smoother motion
+  let dx = 2.0;
+  let dy = 2.3;
 
   const LOGO_SIZE = 120;
   const trail = [];
@@ -75,13 +75,13 @@
   }
 
   function bounceX() {
-    dx = -dx * rand(0.95, 1.05);
-    dy += rand(-0.25, 0.25);
+    dx = -dx * rand(0.97, 1.03);
+    dy += rand(-0.18, 0.18);
   }
 
   function bounceY() {
-    dy = -dy * rand(0.95, 1.05);
-    dx += rand(-0.25, 0.25);
+    dy = -dy * rand(0.97, 1.03);
+    dx += rand(-0.18, 0.18);
   }
 
   function animate() {
@@ -93,7 +93,7 @@
     // Trail
     trail.forEach((t, i) => {
       ctx.save();
-      ctx.globalAlpha = (i / trail.length) * 0.25;
+      ctx.globalAlpha = (i / trail.length) * 0.22;
       ctx.drawImage(logo, t.x, t.y, LOGO_SIZE, LOGO_SIZE);
       ctx.restore();
     });
