@@ -1,109 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>Cheddy Records</title>
-
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    /* Square container */
-    .square {
-      position: relative;
-      width: min(100vw, 100vh);
-      height: min(100vw, 100vh);
-      background-image: url("background.png");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-    }
-
-    canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheddy DVD</title>
+    <style>
+        body {
+            background-image: url("background.jpg");
+        }
+    </style>
 </head>
 <body>
-
-<div class="square">
-  <canvas id="canvas"></canvas>
-</div>
-
-<script>
-  const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
-
-  function resize() {
-    const size = Math.min(window.innerWidth, window.innerHeight);
-    canvas.width = size;
-    canvas.height = size;
-  }
-  window.addEventListener("resize", resize);
-  resize();
-
-  const logo = new Image();
-  logo.src = "cheddy.png";
-
-  let x = 80;
-  let y = 140;
-
-  // 🐢 Smooth, slower motion
-  let dx = 2.0;
-  let dy = 2.3;
-
-  const LOGO_SIZE = 120;
-
-  function rand(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  function bounceX() {
-    dx = -dx * rand(0.97, 1.03);
-    dy += rand(-0.18, 0.18);
-  }
-
-  function bounceY() {
-    dy = -dy * rand(0.97, 1.03);
-    dx += rand(-0.18, 0.18);
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Main logo only (no trail)
-    ctx.save();
-    ctx.shadowColor = "rgba(0,0,0,0.25)";
-    ctx.shadowBlur = 14;
-    ctx.shadowOffsetY = 5;
-    ctx.drawImage(logo, x, y, LOGO_SIZE, LOGO_SIZE);
-    ctx.restore();
-
-    x += dx;
-    y += dy;
-
-    if (x <= 0 || x + LOGO_SIZE >= canvas.width) bounceX();
-    if (y <= 0 || y + LOGO_SIZE >= canvas.height) bounceY();
-
-    requestAnimationFrame(animate);
-  }
-
-  logo.onload = animate;
-</script>
-
+    <h1>Welcome to Cheddy DVD</h1>
+    <p>Your one-stop shop for great movies!</p>
 </body>
 </html>
