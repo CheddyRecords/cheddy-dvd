@@ -1,1 +1,106 @@
-git checkout 8f3c2a9c6d4e1b1f9b0a8e6d7c2f1a9b4e3c5d6f
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Cheddy Records</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Square container */
+    .square {
+      position: relative;
+      width: min(100vw, 100vh);
+      height: min(100vw, 100vh);
+      background: black;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="square">
+    <canvas id="dvdCanvas"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("dvdCanvas");
+    const ctx = canvas.getContext("2d");
+    const container = document.querySelector(".square");
+
+    function resizeCanvas() {
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    const logo = new Image();
+    logo.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/DVD_logo.svg/512px-DVD_logo.svg.png";
+
+    let x = 80;
+    let y = 140;
+
+    /* Smooth, slower motion */
+    let dx = 2.0;
+    let dy = 2.3;
+
+    const LOGO_SIZE = 120;
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function bounceX() {
+      dx = -dx;
+      dy += rand(-0.18, 0.18);
+    }
+
+    function bounceY() {
+      dy = -dy;
+      dx += rand(-0.18, 0.18);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      /* Main logo only (no trail) */
+      ctx.save();
+      ctx.shadowColor = "rgba(0,0,0,0.25)";
+      ctx.shadowBlur = 14;
+      ctx.shadowOffsetY = 5;
+
+      ctx.drawImage(logo, x, y, LOGO_SIZE, LOGO_SIZE);
+      ctx.restore();
+
+      /* Movement */
+      x += dx;
+      y += dy;
+
+      if (x <= 0 || x + LOGO_SIZE >= canvas.width) bounceX();
+      if (y <= 0 || y + LOGO_SIZE >= canvas.height) bounceY();
+
+      requestAnimationFrame(animate);
+    }
+
+    logo.onload = animate;
+  </script>
+</body>
+</html>
